@@ -30,19 +30,16 @@ const prefectureData = [
 const PopulationTable = () => {
 
 
+
+
     const [populationByYear, setPopulationByYear] = useState({});
     const [years, setYears] = useState([]);
     const [members, setMembers] = useState([]);
-
-
+    const [maxScore, setMaxScore] = useState(0);
 
 
 
     useEffect(() => {
-
-        // Get Maximum Total Friendliness Prefecture Names
-        const membersArray = GetFriendship();
-        setMembers(membersArray);
 
 
 
@@ -81,7 +78,20 @@ const PopulationTable = () => {
             setYears(years);
         };
 
+        const fetchGetFriendshipData = async () => {
+            const { bestGroup, maxScore } = await GetFriendship();
+            setMembers(bestGroup);
+            setMaxScore(maxScore);
+
+        };
+
+
+
+        fetchGetFriendshipData();
         fetchPopulationData();
+
+
+
     }, []);
 
 
@@ -93,7 +103,7 @@ const PopulationTable = () => {
                         <th>Year</th>
                         {prefectureData.map((prefecture) => (
                             <th key={prefecture.prefCode}
-                                style={members.includes(prefecture.prefName) ? { backgroundColor: 'var(--color-max)' } :
+                                style={members && members.includes(prefecture.prefName) ? { backgroundColor: 'var(--color-max)' } :
                                     { backgroundColor: 'var(--color-min)' }}>{prefecture.prefName}</th>
                         ))}
                     </tr>
@@ -105,7 +115,7 @@ const PopulationTable = () => {
                             <td>{year}</td>
                             {prefectureData.map(prefecture => (
                                 <td key={prefecture.prefCode}
-                                    style={members.includes(prefecture.prefName) ? { backgroundColor: 'var(--color-max)' }
+                                    style={members && members.includes(prefecture.prefName) ? { backgroundColor: 'var(--color-max)' }
                                         : { backgroundColor: 'var(--color-min)' }} >{populationByYear[year]?.[prefecture.prefName] || 'N/A'}</td>
                             ))}
                         </tr>
@@ -116,7 +126,7 @@ const PopulationTable = () => {
 
             <ul style={{ maxWidth: "250px" }}>
                 <li >
-                    <p style={{ backgroundColor: "var(--color-max)" }}>友好度の総和が最大の<strong>色</strong></p>
+                    <p style={{ backgroundColor: "var(--color-max)" }}>友好度の総和が最大の<strong>色</strong> : {maxScore}</p>
                 </li>
                 <li >
                     <p style={{ backgroundColor: "var(--color-min)" }}>友好度の総和が最小の<strong>色</strong></p>
