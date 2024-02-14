@@ -26,22 +26,15 @@ export default async function GetFriendship() {
     return transformedData;
 }
 
-// transformData(friendships);
-
-
 
 function transformData(data) {
-    // Reset the friendlinessScores object to avoid accumulating results from multiple calls.
     friendlinessScores = {};
 
     // Skip the first row since it's the header, start processing from the second row.
     data.slice(1).forEach(row => {
         const fromRegion = row.Column1; // Correctly reference the 'from' region
         Object.keys(row).forEach((colKey, index) => {
-            // Check if it's a valid score and not the 'fromRegion' itself or a hyphen.
             if (colKey !== "Column1" && row[colKey] !== "-") {
-                // Map the column key to its corresponding region.
-                // Assuming the first column (Col1) is 'fromRegion' and others are 'toRegions'.
                 const toRegion = data[0][`Column${index + 1}`]; // Map index to region name based on the header row
                 const scoreKey = `${fromRegion}-${toRegion}`;
                 friendlinessScores[scoreKey] = parseInt(row[colKey], 10);
