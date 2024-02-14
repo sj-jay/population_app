@@ -65,6 +65,7 @@ function calculateGroupScore(group) {
     return score;
 }
 
+
 // Function to generate all combinations of groups
 function generateCombinations(elements) {
     const combinations = [];

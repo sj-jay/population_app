@@ -85,8 +85,6 @@ const PopulationTable = () => {
 
         };
 
-
-
         fetchGetFriendshipData();
         fetchPopulationData();
 
@@ -124,15 +122,25 @@ const PopulationTable = () => {
 
             </table>
 
-            <ul style={{ maxWidth: "250px" }}>
+            <ol style={{ maxWidth: "400px" }}>
                 <li >
-                    <p style={{ backgroundColor: "var(--color-max)" }}>友好度の総和が最大の<strong>色</strong> : {maxScore}</p>
+                    <h3>友好度の総和が最大のグループ</h3>
+                    <div style={{ backgroundColor: "var(--color-max)" }}>
+                        {members && members.map((member, index) => (
+                            <span key={index}><strong>{member}</strong>{members.length > index + 1 ? "、" : ""}</span>
+                        ))}
+
+                        <p><strong>最大の友好度 →</strong><span>{maxScore}</span></p>
+                    </div>
+
+
                 </li>
                 <li >
+                    <h3>友好度の総和が最小のグループ</h3>
                     <p style={{ backgroundColor: "var(--color-min)" }}>友好度の総和が最小の<strong>色</strong></p>
                 </li>
 
-            </ul>
+            </ol >
         </>
     );
 };
